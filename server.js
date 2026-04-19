@@ -15,6 +15,7 @@ import Anthropic   from "@anthropic-ai/sdk";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme }                        from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient }                 from "@x402/core/server";
+import { createFacilitatorConfig }               from "@coinbase/x402";
 
 dotenv.config();
 
@@ -50,19 +51,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const facilitatorClient = new HTTPFacilitatorClient({
-  url: FACILITATOR,
-  createAuthHeaders: async () => {
-    const name = process.env.CDP_API_KEY_NAME;
-    const key  = process.env.CDP_API_KEY_PRIVATE_KEY;
-    if (!name || !key) return {};
-    const credentials = Buffer.from(`${name}:${key}`).toString("base64");
-    return {
-      verify: { Authorization: `Basic ${credentials}` },
-      settle: { Authorization: `Basic ${credentials}` },
-    };
-  },
-});
+const facilitatorClient = new HTTPFacilitatorClient(
+  createFacilitatorConfig(
+    process.env.CDP_API_KEY_ID,
+    process.env.CDP_API_KEY_SECRET
+  )
+);
 const resourceServer    = new x402ResourceServer(facilitatorClient)
   .register(NETWORK, new ExactEvmScheme());
 
