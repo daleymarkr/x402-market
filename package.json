@@ -6,16 +6,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev":   "node --watch server.js"
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.0",
-    "@x402/core":        "^2.3.0",
-    "@x402/evm":         "^2.9.0",
-    "@x402/express":     "^2.3.0",
-    "cors":              "^2.8.5",
-    "dotenv":            "^16.4.5",
-    "express":           "^4.19.2",
-    "node-fetch":        "^3.3.2"
+    "@coinbase/cdp-sdk": "^1.48.0",
+    "@x402/core": "^2.3.0",
+    "@x402/evm": "^2.9.0",
+    "@x402/express": "^2.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
   }
 }

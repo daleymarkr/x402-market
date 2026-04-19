@@ -50,7 +50,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: FACILITATOR });
+const facilitatorClient = new HTTPFacilitatorClient({
+  url: FACILITATOR,
+  createAuthHeaders: async () => {
+    const { CDP_API_KEY_NAME, CDP_API_KEY_PRIVATE_KEY } = process.env;
+    if (!CDP_API_KEY_NAME || !CDP_API_KEY_PRIVATE_KEY) return {};
+    const { generateJwt } = await import("@coinbase/cdp-sdk");
+    const token = await generateJwt(CDP_API_KEY_NAME, CDP_API_KEY_PRIVATE_KEY);
+    return {
+      verify: { Authorization: `Bearer ${token}` },
+      settle: { Authorization: `Bearer ${token}` },
+    };
+  },
+});
 const resourceServer    = new x402ResourceServer(facilitatorClient)
   .register(NETWORK, new ExactEvmScheme());
 
