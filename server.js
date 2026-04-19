@@ -21,7 +21,7 @@ dotenv.config();
 // ── Config ────────────────────────────────────────────────────────────────────
 const PORT        = process.env.PORT       || 4021;
 const PAY_TO      = process.env.WALLET_ADDRESS;
-const NETWORK     = process.env.NETWORK    || "eip155:84532"; // Base Sepolia testnet
+const NETWORK     = process.env.NETWORK    || "eip155:84532";
 const FACILITATOR = process.env.FACILITATOR_URL
                  || "https://facilitator.x402.org";
 
